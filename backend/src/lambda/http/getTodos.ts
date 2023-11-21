@@ -7,7 +7,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } f
 const logger = createLogger('getTodoshandler')
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-
+    // DONE: Get all TODO items for a current user
     logger.info('Processing event: ', event)
 
     const authorization = event.headers.Authorization
@@ -18,6 +18,10 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
     return {
         statusCode: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true
+        },
         body: JSON.stringify({
             items: todos,
         }),

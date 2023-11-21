@@ -1,6 +1,7 @@
 import * as uuid from 'uuid'
 
 import { CreateTodoRequest } from "../requests/CreateTodoRequest"
+import { UpdateTodoRequest } from "../requests/UpdateTodoRequest"
 import { TodoItem } from "../models/TodoItem"
 import { TodoAccess } from '../dataLayer/todosAccess'
 
@@ -30,6 +31,25 @@ export async function getTodos(
     const userId = 'user' //getUserId(jwtToken)
 
     return todoAccess.getTodos(userId)
+}
+
+export async function updateTodo(
+    todoId: string,
+    updateTodoRequest: UpdateTodoRequest,
+    jwtToken: string
+) {
+
+    const userId = 'user' //getUserId(jwtToken)
+
+    await todoAccess.updateTodo(
+        userId,
+        todoId,
+        {
+            name: updateTodoRequest.name,
+            dueDate: updateTodoRequest.dueDate,
+            done: updateTodoRequest.done
+        }
+    )
 }
 
 

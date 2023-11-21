@@ -2,6 +2,7 @@ import * as AWS  from 'aws-sdk'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { TodoItem } from "../models/TodoItem"
 import { createLogger } from '../utils/logger'
+import { TodoUpdate } from '../models/TodoUpdate'
 
 const logger = createLogger('TodoAccess')
 
@@ -36,6 +37,25 @@ export class TodoAccess {
 
         const items = result.Items
         return items as TodoItem[]
+    }
+
+    async updateTodo(userId: string, todoId: string, todoUpdate: TodoUpdate) {
+        await this.docClient.update({
+            TableName: this.todosTable,
+            Key: {
+                todoId: todoId,
+                userId: userId
+            },
+            UpdateExpression: 'set #todo_name = :name, dueDate = :dueDate, done = :done',
+            ExpressionAttributeNames: {
+                '#todo_name': 'name'
+            },
+            ExpressionAttributeValues: {
+                ':name': todoUpdate.name,
+                ':dueDate': todoUpdate.dueDate,
+                ':done': todoUpdate.done,
+            }
+        }).promise();
     }
 }
 
