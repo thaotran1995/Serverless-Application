@@ -19,8 +19,17 @@ export async function createTodo(
         todoId: todoId,
         createdAt: new Date().toISOString(),
         name: createTodoRequest.name,
-        dueDate: createTodoRequest.name,
+        dueDate: createTodoRequest.dueDate,
         done: false
     })
 }
+
+export async function getTodos(
+    jwtToken: string
+): Promise<TodoItem[]> {
+    const userId = 'user' //getUserId(jwtToken)
+
+    return todoAccess.getTodos(userId)
+}
+
 
