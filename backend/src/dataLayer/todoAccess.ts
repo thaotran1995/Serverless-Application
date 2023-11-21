@@ -39,8 +39,8 @@ export class TodoAccess {
         return items as TodoItem[]
     }
 
-    async updateTodo(userId: string, todoId: string, todoUpdate: TodoUpdate) {
-        await this.docClient.update({
+    async updateTodo(userId: string, todoId: string, todoUpdate: TodoUpdate): Promise<TodoUpdate> {
+        const params = {
             TableName: this.todosTable,
             Key: {
                 todoId: todoId,
@@ -54,8 +54,25 @@ export class TodoAccess {
                 ':name': todoUpdate.name,
                 ':dueDate': todoUpdate.dueDate,
                 ':done': todoUpdate.done,
+            },
+            ReturnValues: "UPDATED_NEW"
+        }
+        await this.docClient.update(params).promise()
+
+        return todoUpdate
+    }
+
+    async todoExists(userId: string, todoId: string): Promise<boolean> {
+        const params = {
+            TableName: this.todosTable,
+            Key: {
+                todoId: todoId,
+                userId: userId
             }
-        }).promise();
+        }
+        const result = await this.docClient.get(params).promise()
+
+        return !!result.Item
     }
 }
 
