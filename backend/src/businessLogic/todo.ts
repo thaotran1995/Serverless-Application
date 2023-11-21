@@ -5,6 +5,7 @@ import { UpdateTodoRequest } from "../requests/UpdateTodoRequest"
 import { TodoItem } from "../models/TodoItem"
 import { TodoUpdate } from "../models/TodoUpdate"
 import { TodoAccess } from '../dataLayer/todosAccess'
+import { parseUserId } from '../auth/utils'
 
 const todoAccess = new TodoAccess();
 
@@ -14,7 +15,7 @@ export async function createTodo(
 ): Promise<TodoItem> {
 
     const todoId = uuid.v4()
-    const userId = 'user' //getUserId(jwtToken)
+    const userId = parseUserId(jwtToken)
 
     return await todoAccess.createTodo({
         userId: userId,
@@ -29,8 +30,7 @@ export async function createTodo(
 export async function getTodos(
     jwtToken: string
 ): Promise<TodoItem[]> {
-    const userId = 'user' //getUserId(jwtToken)
-
+    const userId = parseUserId(jwtToken)
     return todoAccess.getTodos(userId)
 }
 
@@ -40,8 +40,7 @@ export async function updateTodo (
     jwtToken: string
 ): Promise<TodoUpdate> {
 
-    const userId = 'user' //getUserId(jwtToken)
-
+    const userId = parseUserId(jwtToken)
     return await todoAccess.updateTodo(
         userId,
         todoId,
@@ -57,7 +56,7 @@ export async function todoExists (
     todoId: string,
     jwtToken: string
 ): Promise<boolean> {
-    const userId = 'user' //getUserId(jwtToken)
+    const userId = parseUserId(jwtToken)
     return await todoAccess.todoExists(
         userId,
         todoId
@@ -68,7 +67,7 @@ export async function deleteTodo(
     todoId: string,
     jwtToken: string
 ) {
-    const userId = 'user' //getUserId(jwtToken)
+    const userId = parseUserId(jwtToken)
     await todoAccess.deleteTodo(userId, todoId);
 }
 
@@ -78,7 +77,7 @@ export async function generateAndAddUploadUrl (
 ): Promise<string> {
 
     const uploadUrl = todoAccess.getUploadUrl(todoId)
-    const userId = 'user' //getUserId(jwtToken)
+    const userId = parseUserId(jwtToken)
     await todoAccess.updateUrl(
         userId,
         todoId,
