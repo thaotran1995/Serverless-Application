@@ -3,8 +3,8 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-import { updateTodo, todoExists } from '../../businessLogic/todos'
 import { createLogger } from '../../utils/logger'
+import {todoExists, updateTodo} from "../../businessLogic/todo";
 
 const logger = createLogger('updateTodohandler')
 

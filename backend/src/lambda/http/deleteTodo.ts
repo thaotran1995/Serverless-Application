@@ -2,7 +2,7 @@ import 'source-map-support/register'
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } from 'aws-lambda'
 import { createLogger } from '../../utils/logger'
-import { deleteTodo, todoExists } from '../../businessLogic/todos'
+import {deleteTodo, todoExists} from "../../businessLogic/todo";
 
 const logger = createLogger('deleteTodohandler')
 
