@@ -1,6 +1,9 @@
 import * as AWS  from 'aws-sdk'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { TodoItem } from "../models/TodoItem"
+import { createLogger } from '../utils/logger'
+
+const logger = createLogger('TodoAccess')
 
 export class TodoAccess {
 
@@ -20,7 +23,7 @@ export class TodoAccess {
 
 
     async getTodos(userId: string): Promise<TodoItem[]> {
-        console.log('Getting todos for a user')
+        logger.info('Getting todos for a user')
 
         const result = await this.docClient.query({
             TableName: this.todosTable,
@@ -38,7 +41,7 @@ export class TodoAccess {
 
 function createDynamoDBClient() {
     if (process.env.IS_OFFLINE) {
-        console.log('Creating a local DynamoDB instance')
+        logger.info('Creating a local DynamoDB instance')
         return new AWS.DynamoDB.DocumentClient({
             region: 'localhost',
             endpoint: 'http://localhost:8000'
