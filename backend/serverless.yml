@@ -59,7 +59,7 @@ functions:
           cors: true
           authorizer: Auth
           request:
-            schema:
+            schemas:
               application/json: ${file(models/create-todo-request.json)}
     iamRoleStatements:
       - Effect: "Allow" # xray permissions (required)
@@ -83,7 +83,7 @@ functions:
           cors: true
           authorizer: Auth
           request:
-            schema:
+            schemas:
               application/json: ${file(models/update-todo-request.json)}
     iamRoleStatements:
       - Effect: "Allow" # xray permissions (required)
