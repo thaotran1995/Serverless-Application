@@ -64,3 +64,11 @@ export async function todoExists (
     )
 }
 
+export async function deleteTodo(
+    todoId: string,
+    jwtToken: string
+) {
+    const userId = 'user' //getUserId(jwtToken)
+    await todoAccess.deleteTodo(userId, todoId);
+}
+
